@@ -22,11 +22,10 @@ inq.prompt([
     }
 ]).then( (answers) => {
     getTeamData(answers.numEngineers, answers.numInterns);
-})
+});
 
 function getTeamData(numEngineers, numInterns) {
-
-    inq.prompt([
+    const managerPrompt = [
         {
             message: "What is your name?",
             name: "name"
@@ -38,41 +37,34 @@ function getTeamData(numEngineers, numInterns) {
         {
             message: "What is your office number?",
             name: "office"
+        }
+    ];
+    const engineerPrompt = [
+        {
+            message: "What is their name?",
+            name: "name"
         },
-    ]).then( (answers) => render.addTeamMember(answers, 'Manager'));
-
-    for(let i = 0; i < numEngineers; i++) {
-        inq.prompt([
-            {
-                message: "What is your name?",
-                name: "name"
-            },
-            {
-                message: "What is your email?",
-                name: "email"
-            },
-            {
-                message: "What is your github username?",
-                name: "username"
-            },
-        ]).then( (answers) => render.addTeamMember(answers, 'Engineer'));
-    }
-    for(let i = 0; i < numInterns; i++) {
-        inq.prompt([
-            {
-                message: "What is your name?",
-                name: "name"
-            },
-            {
-                message: "What is your email?",
-                name: "email"
-            },
-            {
-                message: "What school do you attend?",
-                name: "school"
-            },
-        ]).then( (answers) => render.addTeamMember(answers, 'Intern'));
-    }
-
-    render.createPage(outputPath);
+        {
+            message: "What is their email?",
+            name: "email"
+        },
+        {
+            message: "What is their github username?",
+            name: "username"
+        }
+    ];
+    const internPrompt = [
+        {
+            message: "What is their name?",
+            name: "name"
+        },
+        {
+            message: "What is their email?",
+            name: "email"
+        },
+        {
+            message: "What school do they attend?",
+            name: "school"
+        }
+    ];
 }
