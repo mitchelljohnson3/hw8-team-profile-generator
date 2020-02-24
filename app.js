@@ -73,8 +73,9 @@ const internPrompt = [
         }
     ];
 
-let idTracker = 0;
+let idTracker = 1;
 async function getTeamData() {
+    console.log('Manager Information:');
     inq.prompt(managerPrompt).then( (answers) => {
         const manager = new Manager(answers.name, idTracker, answers.email, answers.office);
         idTracker++;
@@ -83,28 +84,30 @@ async function getTeamData() {
     })
 }
 async function getEngineers() {
-    inq.prompt(engineerPrompt).then( (answers) => {
-        const engineer = new Engineer(answers.name, idTracker, answers.email, answers.username);
-        idTracker++;
-        render.addTeamMember(engineer);
-        if(numberEngineers > 0){
-            numberEngineers--;
+    if(numberEngineers > 0){
+        console.log('New Engineer Information:');
+        inq.prompt(engineerPrompt).then( (answers) => {
+            const engineer = new Engineer(answers.name, idTracker, answers.email, answers.username);
+            idTracker++;
+            render.addTeamMember(engineer);
             getEngineers();
-        } else {
-            getInterns();
-        }
-    })
+        });
+        numberEngineers--;
+    } else {
+        getInterns();
+    }
 }
 async function getInterns() {
-    inq.prompt(internPrompt).then( (answers) => {
-        const intern = new Intern(answers.name, idTracker, answers.email, answers.school);
-        idTracker++;
-        render.addTeamMember(intern);
-        if(numberInterns > 0){
-            numberInterns--;
+    if(numberInterns > 0){
+        console.log('New Intern Information:');
+        inq.prompt(internPrompt).then( (answers) => {
+            const intern = new Intern(answers.name, idTracker, answers.email, answers.school);
+            idTracker++;
+            render.addTeamMember(intern);
             getInterns();
-        } else {
-            render.createPage(outputPath);
-        }
-    })
+        });
+        numberInterns--;
+    } else {
+        render.createPage(outputPath);
+    }
 }
